@@ -25,6 +25,6 @@
 	<property name="dataSource" ref="dataSource"></property>
 	<property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"></property>
 	</bean>
-	<mybatis-spring:scan base-package="com.ezen.myProject.repository"/>
+	<mybatis-spring:scan base-package="com.ezen.myproject.repository"/>
 		
 </beans>

@@ -1,0 +1,8 @@
+package com.ezen.myproject.service;
+
+import org.springframework.stereotype.Service;
+
+@Service //서비스
+public class BoardServiceImpl implements BoardService {
+
+}

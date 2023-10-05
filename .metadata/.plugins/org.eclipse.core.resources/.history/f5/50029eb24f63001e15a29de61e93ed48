@@ -1,0 +1,12 @@
+package com.ezen.myproject.service;
+
+import org.springframework.stereotype.Service;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service //서비스
+@Slf4j //로그
+public class BoardServiceImpl implements BoardService {
+	
+	
+}

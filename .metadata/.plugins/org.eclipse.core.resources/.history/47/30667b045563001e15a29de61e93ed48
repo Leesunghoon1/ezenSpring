@@ -1,0 +1,6 @@
+package com.ezen.myproject.repository;
+
+
+public interface BoardDAO {
+
+}

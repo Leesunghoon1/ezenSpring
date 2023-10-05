@@ -38,19 +38,19 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Log In</a>
+          <a class="nav-link" href="/board/register">Log In</a>
         </li>
                 <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Log Out</a>
+          <a class="nav-link" href="/board/register">Log Out</a>
         </li>
                 <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Sign Up</a>
+          <a class="nav-link" href="/board/register">Sign Up</a>
         </li>
                 <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">REG</a>
+          <a class="nav-link" href="/board/register">REG</a>
         </li>
                 <li class="nav-item">
-          <a class="nav-link disabled" aria-disabled="true">Board List</a>
+          <a class="nav-link" href="/board/list">Board List</a>
         </li>
       </ul>
 <!--       <form class="d-flex" role="search">
