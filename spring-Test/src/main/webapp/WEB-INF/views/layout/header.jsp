@@ -37,14 +37,17 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+        
+        <c:if test="${ses eq null }">
         <li class="nav-item">
-          <a class="nav-link" href="/board/register">Log In</a>
+          <a class="nav-link" href="/member/login">Log In</a>
+        </li>
+        </c:if>
+                <li class="nav-item">
+          <a class="nav-link" href="/member/logout">Log Out</a>
         </li>
                 <li class="nav-item">
-          <a class="nav-link" href="/board/register">Log Out</a>
-        </li>
-                <li class="nav-item">
-          <a class="nav-link" href="/board/register">Sign Up</a>
+          <a class="nav-link" href="/member/signup">Sign Up</a>
         </li>
                 <li class="nav-item">
           <a class="nav-link" href="/board/register">REG</a>
@@ -52,7 +55,18 @@
                 <li class="nav-item">
           <a class="nav-link" href="/board/list">Board List</a>
         </li>
+        
+         <c:if test="${ses ne null }">
+			<li>
+			 <a class="nav-link" href="/member/modify">
+			ID : ${ses.id }님 로그인이 되었습니다.
+			Email : ${ses.email }
+			</a>
+		</li>
+		</c:if>
       </ul>
+      
+ 
 <!--       <form class="d-flex" role="search">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success" type="submit">Search</button>

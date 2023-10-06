@@ -1,0 +1,49 @@
+package com.ezen.myproject.service;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Service;
+
+import com.ezen.myproject.domain.MemberVO;
+import com.ezen.myproject.repository.MemberDAO;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Service
+public class MemberServiceImpl implements MemberService{
+	
+	@Inject
+	private MemberDAO mdao;
+	
+	//password Encode 를 하기 위해 security 디펜던시 추가.
+	
+	//BCryptPasswordEncoder
+
+	@Override
+	public int signup(MemberVO mvo) {
+		// 아이디가 중복되면 회원가입 실패
+		// 아이디를 주고, DB에서 일치하는 유저를 달라고 요청
+		// 일치하는 유저가 없다면 가입(1), / 유저가 있으면 실패(0)
+		MemberVO temp = mdao.getUser(mvo.getId());
+		//아이디가 일치하면 템프에 넣어주라
+		if(temp != null) {
+			//여기는 중복되서 0을 리턴
+			return 0;
+		}
+		//아이디가 중복아 되지 않아서 회원가입 을 진행 
+		//password가 null이면, 혹은 값이 없다면.... 가입불가
+		if(mvo.getId() == null || mvo.getId().length() == 0) {
+			return 0;
+		}
+		if(mvo.getPw() == null || mvo.getPw().length() == 0) {
+			return 0;
+		}
+		
+		//회원가입 진행
+		//암호화(encode)
+		log.info("signup chaeak 2");
+		return mdao.insert(mvo);
+	}
+	
+}

@@ -1,0 +1,9 @@
+package com.ezen.myproject.repository;
+
+import com.ezen.myproject.domain.MemberVO;
+
+public interface MeberDAO {
+
+	int insert(MemberVO mvo);
+
+}

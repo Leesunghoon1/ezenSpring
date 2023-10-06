@@ -1,0 +1,42 @@
+package com.ezen.myproject.controller;
+
+import javax.inject.Inject;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.ezen.myproject.domain.MemberVO;
+import com.ezen.myproject.service.MemberService;
+
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
+@RequestMapping("/member/*")
+@Controller
+public class MemberController {
+	
+	@Inject
+	private MemberService msv;
+	
+	@GetMapping("/signup")
+	public String signupGet( ) {
+		return "/member/signup";
+	}
+	
+	@PostMapping("/signup")
+	public String signupPost(MemberVO mvo) {
+		log.info(">>>>>>> 회원가입 객체" + mvo);
+		
+		int isOK = msv.signup(mvo);
+		
+		log.info(">>>> member signup >>"+(isOK>0? "ok" : "fail"));
+		
+		return "index";
+	}
+	
+	
+	
+}
