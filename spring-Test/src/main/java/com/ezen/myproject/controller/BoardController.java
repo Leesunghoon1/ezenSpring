@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.ezen.myproject.domain.BoardVO;
+import com.ezen.myproject.domain.PagingVO;
+import com.ezen.myproject.handler.PagingHandler;
 import com.ezen.myproject.service.BoardService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -41,10 +43,18 @@ public class BoardController {
 	}
 	
 	@GetMapping("/list")
-	public String list(Model model) {
-		List<BoardVO> list = bsv.getList();
-		log.info(">> get List >>>" + list);
+	public String list(Model model, PagingVO pgvo) {
+		log.info(">>>> pgvo" + pgvo);
+		//getList(pgvo); 수정
+		List<BoardVO> list = bsv.getPageList(pgvo);
+//		log.info(">> get List >>>" + list);
 		model.addAttribute("list", list);
+		log.info("리스트" + list);
+		
+		int totalCount = bsv.getTotalCount(pgvo); // 등록
+		log.info("to" + totalCount);
+		PagingHandler ph = new PagingHandler(pgvo, totalCount);
+		model.addAttribute("ph", ph);
 		return "/board/list";
 	}
 	

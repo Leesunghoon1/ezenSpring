@@ -3,6 +3,7 @@ package com.ezen.myproject.service;
 import java.util.List;
 
 import com.ezen.myproject.domain.BoardVO;
+import com.ezen.myproject.domain.PagingVO;
 
 public interface BoardService {
 
@@ -15,5 +16,9 @@ public interface BoardService {
 	int modify(BoardVO bvo);
 
 	int remove(int bno);
+
+	int getTotalCount(PagingVO pgvo);
+
+	List<BoardVO> getPageList(PagingVO pgvo);
 
 }

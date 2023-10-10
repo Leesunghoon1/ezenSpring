@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 import com.ezen.myproject.domain.BoardVO;
+import com.ezen.myproject.domain.PagingVO;
 
 public interface BoardDAO {
 
@@ -19,5 +20,9 @@ public interface BoardDAO {
 	int update(BoardVO bvo);
 
 	int remove(int bno);
+
+	int getTotalCount(PagingVO pgvo);
+
+	List<BoardVO> getPageList(PagingVO pgvo);
 
 }

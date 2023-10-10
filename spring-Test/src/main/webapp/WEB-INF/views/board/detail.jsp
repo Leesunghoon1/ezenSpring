@@ -43,5 +43,36 @@
 <a href="/board/remove?bno=${bvo.bno }"><button>삭제</button></a>
 <a href="/board/list?bno=${bvo.bno }"><button>리스트</button></a>
 
+<!--comment line  -->
+<br>
+<br>
+<div>
+	<div>
+	<!-- 댓글 작성 라인 -->
+	<span id="cmtWriter">${ses.id }</span>
+	<input type="text" id="cmtText" placeholder="Add Comment...">
+	<button type="button" id="cmtPostBtn">댓글 등록</button>
+	</div>
+	
+	<div>
+	<!-- 댓글 표시 라인 -->
+		<ul id="cmtListArea">
+			<li>
+			<div>
+				<div>writer</div>
+				content
+			</div>
+			<span>reg_date</span>
+			</li>
+		</ul>
+	</div>
+</div>
+
+<script type="text/javascript">
+const bnoVal = `<c:out value="${bvo.bno}" />`;
+console.log(bnoVal)
+</script>
+<script type="text/javascript" src="/resources/js/boardComment.js"></script>
+
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </html>
