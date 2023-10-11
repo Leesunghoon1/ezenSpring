@@ -17,6 +17,6 @@ public class CommentVO {
 	private int bno;
 	private String writer;
 	private String content;
-	private String reg_date;
+	private String regdate;
 
 }

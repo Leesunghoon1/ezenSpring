@@ -69,10 +69,16 @@
 </div>
 
 <script type="text/javascript">
+const id = `<c:out value="${ses.id}" />`;
 const bnoVal = `<c:out value="${bvo.bno}" />`;
-console.log(bnoVal)
+console.log(bnoVal);
 </script>
+
+
 <script type="text/javascript" src="/resources/js/boardComment.js"></script>
+<script>
+getCommentList(bnoVal);
+</script>
 
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </html>

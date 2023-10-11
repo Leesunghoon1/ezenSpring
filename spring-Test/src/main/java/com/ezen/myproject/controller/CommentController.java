@@ -1,11 +1,22 @@
 package com.ezen.myproject.controller;
 
-import javax.inject.Inject;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Delete;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ezen.myproject.domain.CommentVO;
 import com.ezen.myproject.service.CommentService;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -40,5 +52,32 @@ public class CommentController {
 				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-
+	@GetMapping(value="/{bno}", 
+			produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<CommentVO>> spread(
+			@PathVariable("bno") int bno) {
+		log.info(">>>>> comment List bno" + bno);
+		//DB 요청
+		List<CommentVO> list = csv.getList(bno);
+		return new ResponseEntity<List<CommentVO>>(list, HttpStatus.OK);
+		
+	}
+	
+	@PutMapping(value="/{cno}", 
+			consumes = "application/json", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> edit(@PathVariable("cno")int cno, @RequestBody CommentVO cvo, HttpServletRequest request) {
+		log.info(" >>>  cno / cvo" + cno + " / " + cvo);
+		int isOK = csv.edit(cvo);
+		return isOK > 0 ? new ResponseEntity<String>("1", HttpStatus.OK)
+				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+	@DeleteMapping(value="/{cno}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> remove(@PathVariable("cno")int cno) {
+		log.info(" >>>  44444cno " + cno);
+		int isOK = csv.remove(cno);
+		return isOK > 0 ? new ResponseEntity<String>("1", HttpStatus.OK)
+				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
 }
