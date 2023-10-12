@@ -56,3 +56,18 @@ writer varchar(100),
 content varchar(500),
 regdate datetime default now(),
 primary key(cno));
+
+
+2023-10-12
+
+file추가
+
+create table file(
+uuid varchar(226) not null,
+save_dir varchar(226) not null,
+file_name varchar(226) not null,
+file_type tinyint(1) default 0,
+bno int,
+file_size int,
+reg_date datetime default now(),
+primary key(uuid));

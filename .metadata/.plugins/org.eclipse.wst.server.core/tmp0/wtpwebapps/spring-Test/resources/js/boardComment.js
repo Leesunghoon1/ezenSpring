@@ -149,7 +149,7 @@ async function postCommentToServer(cmtData)
             //수정작업
             console.log('수정버튼 클릭~!!');
             //내가 선택 한 타겟과 가장 가까운 li를 찾기
-            let li = e.target.closest('li')
+            let li = e.target.closest('li');
             let conVal = li.dataset.cno;
             let textContent = li.querySelector('#cmtTextMod').value;
        
@@ -157,7 +157,7 @@ async function postCommentToServer(cmtData)
 
             let cmtModData = {
                 cno : conVal,
-                content : textContent
+                content : textContentz
             };
             console.log(cmtModData);
             //서버연결
