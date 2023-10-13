@@ -2,12 +2,15 @@ package com.ezen.myproject.service;
 
 import java.util.List;
 
+import com.ezen.myproject.domain.BoardDTO;
 import com.ezen.myproject.domain.BoardVO;
 import com.ezen.myproject.domain.PagingVO;
 
 public interface BoardService {
-
-	int register(BoardVO bvo);
+	
+	// int register(BoardVO bvo);
+	
+	int register(BoardDTO bdto);
 
 	List<BoardVO> getList();
 
@@ -20,5 +23,7 @@ public interface BoardService {
 	int getTotalCount(PagingVO pgvo);
 
 	List<BoardVO> getPageList(PagingVO pgvo);
+
+
 
 }

@@ -14,4 +14,8 @@ public interface CommentDAO {
 
 	int del(int cno);
 
+	CommentVO getCommentCount(int bno);
+
+	int getCommentCount();
+
 }

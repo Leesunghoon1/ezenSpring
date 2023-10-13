@@ -7,31 +7,57 @@
   	insert into board(title, writer, content)
   	values(#{title}, #{writer}, #{content})
   	</insert>
-  	<select id="getList" resultType="com.ezen.myproject.domain.BoardVO">
-  	select * from board where isDel = 'N' order by bno desc; 
+  	
+  	<select id="selectBno" resultType="int">
+  		select max(bno) from board;
   	</select>
+  	
+  	
+<!--   	<select id="getList" resultType="com.ezen.myproject.domain.BoardVO">
+        select * from board b 
+        left join (select bno, count(bno) commentCount from comment group by bno)c using(bno)
+        left join (select bno, count(bno) fileCount from file group by bno)f using(bno)
+        where isDel = 'N'
+      <include refid="search"></include>
+      order by bno desc limit #{pageStart}, #{qty}
+  	</select> -->
+  	
+  	
   	<select id="getDetail" parameterType="int" resultType="com.ezen.myproject.domain.BoardVO">
   	select * from board where bno = #{bno};
   	</select>
+  	
+  	
+  	
+  	
   	<update id="readcount" parameterType="int">
   	update board set read_count = read_count + #{cnt} where bno = #{bno}
   	</update>
+  	
+  	
   	<update id="update" parameterType="com.ezen.myproject.domain.BoardVO">
   update board set title = #{title}, content= #{content} where bno = #{bno}
   </update>
+  
+  
   <update id="remove" parameterType="int">
   update board set isDel='Y' where bno = #{bno}
   </update>
+  
+  
   <select id="getTotalCount" parameterType="com.ezen.myproject.domain.BoardVO" resultType="int">
   	select count(bno) from board where isDel = 'N'
   	  	  	<include refid="search"></include>
   </select>
     <select id="getPageList" parameterType="com.ezen.myproject.domain.BoardVO" resultType="com.ezen.myproject.domain.BoardVO">
-  	select * from board where isDel = 'N'
-  	  	<include refid="search"></include>
-  	 order by bno desc
-  	limit #{pageStart}, #{qty}
+        select * from board b 
+        left join (select bno, count(bno) commentCount from comment group by bno)c using(bno)
+        left join (select bno, count(bno) fileCount from file group by bno)f using(bno)
+        where isDel = 'N'
+      <include refid="search"></include>
+      order by bno desc limit #{pageStart}, #{qty}
   </select>
+  
   
   <sql id="search">
   	<if test="type != null">

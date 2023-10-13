@@ -40,4 +40,6 @@ public class CommentServiceImpl implements CommentService{
 	public int remove(int cno) {
 		return cdao.del(cno);
 	}
+
+
 }

@@ -1,0 +1,17 @@
+package com.ezen.myproject.handler;
+
+import org.springframework.stereotype.Component;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@AllArgsConstructor
+@Component
+public class FileHandler {
+	
+	// 내 파일 기본 경로 설정
+	private final String UP_DIR = "D:\\_myweb\\_java\\fileUpload";
+	
+
+}

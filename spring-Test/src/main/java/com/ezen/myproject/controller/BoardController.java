@@ -13,10 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.ezen.myproject.domain.BoardDTO;
 import com.ezen.myproject.domain.BoardVO;
+import com.ezen.myproject.domain.CommentVO;
+import com.ezen.myproject.domain.FileVO;
 import com.ezen.myproject.domain.PagingVO;
+import com.ezen.myproject.handler.FileHandler;
 import com.ezen.myproject.handler.PagingHandler;
 import com.ezen.myproject.service.BoardService;
+import com.ezen.myproject.service.CommentService;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,6 +32,12 @@ public class BoardController {
 	
 	@Inject // 언어테이션으로 new 대신 생성해줌
 	private BoardService bsv;
+	@Inject
+	private FileHandler fhd;
+	
+	@Inject
+	private CommentService csv;
+	
 	
 	
 	@GetMapping("/register")
@@ -49,8 +60,20 @@ public class BoardController {
 			@RequestParam(name="files", required = false)MultipartFile[] files) {
 		log.info(">>>>>>>> bvo "+bvo.toString());
 		log.info(">>>> files" + files);
+		List<FileVO>flist = null;
+		//files 가 null 일수 있음. 첨부파일이 있을때만 fhd호출
+		if(files[0].getSize() > 0) {
+			//첫번째 파일의 size 가 0 보다 크다면..
+			
+			//file 에 파일 객체 담기
+			flist = fhd.uploadFiles(files);
+		}else {
+			log.info("file null");
+		}
 		
-		int isOK = bsv.register(bvo);
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+		
+		int isOK = bsv.register(bdto);
 		log.info(">>>> board register >>"+(isOK>0? "ok" : "fail"));
 		
 		return "redirect:/board/list";
@@ -58,12 +81,14 @@ public class BoardController {
 	
 	@GetMapping("/list")
 	public String list(Model model, PagingVO pgvo) {
+		
 		log.info(">>>> pgvo" + pgvo);
 		//getList(pgvo); 수정
 		List<BoardVO> list = bsv.getPageList(pgvo);
 //		log.info(">> get List >>>" + list);
 		model.addAttribute("list", list);
 		log.info("리스트" + list);
+		
 		
 		int totalCount = bsv.getTotalCount(pgvo); // 등록
 		log.info("to" + totalCount);

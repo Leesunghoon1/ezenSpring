@@ -1,0 +1,16 @@
+package com.ezen.myproject.handler;
+
+import com.ezen.myproject.domain.PagingVO;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class FileHandler {
+	
+	
+
+}

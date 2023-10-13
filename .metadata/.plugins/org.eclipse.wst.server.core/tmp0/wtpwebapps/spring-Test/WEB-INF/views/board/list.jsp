@@ -46,6 +46,8 @@
 	<th>작성자</th>
 	<th>작성일</th>
 	<th>조회수</th>
+	<th>댓글개수</th>
+	<th>파일개수</th>
 </tr>
 
 </thead>
@@ -58,6 +60,8 @@
 	<td>${bvo.writer }</td>
 	<td>${bvo.registerDate }</td>
 	<td>${bvo.read_count }</td>
+	<td>${bvo.commentCount }</td>
+	<td>${bvo.fileCount }</td>
 	</tr>
 </c:forEach>
 </tbody>

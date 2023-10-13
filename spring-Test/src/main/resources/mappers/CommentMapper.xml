@@ -20,4 +20,6 @@
     <delete id="del" >
     	delete from comment where cno = #{cno}
     </delete>
+    
+    
     </mapper>

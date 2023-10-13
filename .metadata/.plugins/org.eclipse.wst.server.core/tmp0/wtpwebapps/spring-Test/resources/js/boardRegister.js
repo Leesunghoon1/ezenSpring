@@ -43,8 +43,8 @@ document.addEventListener('change', (e) =>{
             ul+= `${ValidResult? '<div>업로드 가능</div>' : '<div>업로드 불가능</div>'}`;
             ul+= `${file.name}`;
             ul+= `<span class="badge text-bg-${ValidResult? 'success' : 'danger'}">${file.size}Byte</span></li>`;
-
         }
+        
         ul+=`</ul>`;
         div.innerHTML = ul;
         if(isOK == 0) { //첨부 불가능한 파일이 있다는 것을 의미
