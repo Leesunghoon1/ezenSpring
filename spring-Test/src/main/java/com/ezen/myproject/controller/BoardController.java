@@ -4,9 +4,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,8 +37,10 @@ public class BoardController {
 	
 	@Inject // 언어테이션으로 new 대신 생성해줌
 	private BoardService bsv;
+	
 	@Inject
 	private FileHandler fhd;
+	
 	
 	@Inject
 	private CommentService csv;
@@ -101,18 +108,35 @@ public class BoardController {
 	@GetMapping({"/detail", "/modify"})
 	public void detail(Model model, @RequestParam("bno")int bno) {
 		log.info(">>>>detail bno >>>" + bno);
-		
-		BoardVO bvo = bsv.getDetail(bno);
-		model.addAttribute("bvo", bvo);
+		//파일 내용도 포함해서 같이 가져가야함.
+		//BoardVO bvo = bsv.getDetail(bno);
+		BoardDTO bdto = bsv.getDetailFile(bno);
+		model.addAttribute("boardDTO", bdto);
 	}
 	
 	//수정할 떄 들어가는 부당 read_count 2개 빼주기
 	
 	@PostMapping("/modify")
-	public String detail(BoardVO bvo, RedirectAttributes reAttr) {
-		log.info(">>>>modify" + bvo);
-		int isOK = bsv.modify(bvo);
+	public String detail(BoardVO bvo, RedirectAttributes reAttr,
+			@RequestParam(name="files", required = false)MultipartFile[] files) {
+		log.info(">>>>modify bvo" + bvo);
+		log.info(">>>>modify files" + files);
+		
+		
+		List<FileVO> flist = null;
+		if(files[0].getSize() > 0) {
+			// file이 존재함 기본 파일은 이미 DB에 등록완료. 삭제할 파일은 비동기로 이미
+			// 삭제 완료. 새로 추가할 파일만 추가
+			//file이 존재함
+			
+			flist = fhd.uploadFiles(files); //알아서 fvo구성하고 List로 리턴을 해줌
+			bvo.setFileCount(flist.size());
+			
+		}
+		BoardDTO bdto = new BoardDTO(bvo, flist);
+		int isOK = bsv.modifyFile(bdto);
 		log.info(">>>> board modify >>"+(isOK>0? "ok" : "fail"));
+		
 		return "redirect:/board/detail?bno="+bvo.getBno();
 	}
 	
@@ -121,5 +145,14 @@ public class BoardController {
 		log.info(">>>> remove bno >>>" + bno);
 		int isOK = bsv.remove(bno);	
 		return "redirect:/board/list";	
+	}
+	
+	@DeleteMapping(value="/file/{uuid}", produces = MediaType.TEXT_PLAIN_VALUE)
+	public ResponseEntity<String> removeFile(@PathVariable("uuid")String fno) {
+		log.info(" >>>  44444cno " + fno);
+		int isOK = bsv.removeFile(fno);
+		
+		return isOK > 0 ? new ResponseEntity<String>("1", HttpStatus.OK)
+				: new ResponseEntity<String>("0", HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

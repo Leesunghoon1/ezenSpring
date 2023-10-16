@@ -108,4 +108,5 @@ public class FileHandler {
 		return mimeType.startsWith("image")? true : false;
 	}
 
+
 }

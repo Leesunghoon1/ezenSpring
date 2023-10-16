@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+       <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,9 +9,11 @@
 <title>Insert title here</title>
 </head>
 <jsp:include page="../layout/header.jsp"></jsp:include>
+<c:set value="${boardDTO.bvo }" var="bvo"></c:set>
 <body>
 <h1>Board modify Page</h1>
-<form action="/board/modify" method="post">
+<form action="/board/modify" method="post" enctype="multipart/form-data">
+
 <table border="1">
 	<tr>
 		<th>BNO</th>
@@ -28,8 +32,57 @@
 		<td><textarea rows="3" cols="30" name="content">${bvo.content }</textarea></td>	
 	</tr>
 </table>
-<button type="submit">수정</button>
+	<!-- 파일표시라인 -->
+	<c:set value="${boardDTO.flist }" var="flist"></c:set>
+<div>
+	<ul>
+		<!-- 파일 개수만큼 li를 추가하여 파일을 표시 타입이 1일경우만 표시 -->	
+		<!-- li
+		     div => img 그림표시
+		     div => div 파일이름, 작성일자 span 크기 설정
+		-->	
+		<!-- 하나의 파일로 생성 -->
+		<c:forEach items="${flist }" var="fvo">
+		<li>
+			<c:choose>
+				<c:when test="${fvo.file_type > 0 }">
+					<div>
+					<!-- /upload/year/month/dat/uuid_th_filename -->
+						<img alt="그림없음" src="/upload/${fn: replace(fvo.save_dir, '\\', '/')}/${fvo.uuid}_th_${fvo.file_name}">
+					</div>
+				</c:when>
+				<c:otherwise>
+					
+				</c:otherwise>
+			</c:choose>
+				<!-- 파일모양 아이콘 같은걸 넣을수있음-->
+				<div>${fvo.file_name }</div>
+				<button type="button" class="file-x" data-uuit="${fvo.uuid }">삭제(X)</button>
+		</li>
+		
+		</c:forEach>
+	</ul>
+</div>
+
+<!-- 수정 파일 등록 라인 -->
+
+	file : <input type="file" id="file" name="files" multiple="multiple" style="display:none"><br> <!-- multiple="multiple" 한번에 여러 파일을 업로드 가능하게 만들어줌 -->
+	<button type="button" id="trigger">FileUpload</button><br>
+	<div id="fileZone">
+	
+	</div>
+	
+<button type="submit" id="regBtn">수정</button>
+
 </form>
+
+<a href="/board/list">
+<button type="submit">리스트</button>
+</a>
+
+<script type="text/javascript" src="/resources/js/boardModify.js"></script>
+<script type="text/javascript" src="/resources/js/boardRegister.js"></script>
+
 <jsp:include page="../layout/footer.jsp"></jsp:include>
 </body>
 </html>

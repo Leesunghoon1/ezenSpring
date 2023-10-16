@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+   <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,8 @@
 <jsp:include page="../layout/header.jsp"></jsp:include>
 <body>
 <h1>Board Detail Page</h1>
+<c:set value="${boardDTO.bvo }" var="bvo"></c:set>
+<!-- bvo의 값을 벨류의 값으로 바궈줌  -->
 <table border="1">
 	<tr>
 		<th>BNO</th>
@@ -37,8 +40,41 @@
 		<th>read_count</th>
 		<td>${bvo.read_count }</td>
 	</tr>
-
 </table>
+	<!-- file 표현 영역 -->
+	<c:set value="${boardDTO.flist }" var="flist"></c:set>
+<div>
+	<ul>
+		<!-- 파일 개수만큼 li를 추가하여 파일을 표시 타입이 1일경우만 표시 -->	
+		<!-- li
+		     div => img 그림표시
+		     div => div 파일이름, 작성일자 span 크기 설정
+		-->	
+		<!-- 하나의 파일로 생성 -->
+		<c:forEach items="${flist }" var="fvo">
+		<li>
+			<c:choose>
+				<c:when test="${fvo.file_type > 0 }">
+					<div>
+					<!-- /upload/year/month/dat/uuid_th_filename -->
+						<img alt="그림없음" src="/upload/${fn: replace(fvo.save_dir, '\\', '/')}/${fvo.uuid}_th_${fvo.file_name}">
+					</div>
+				</c:when>
+				<c:otherwise>
+					
+				</c:otherwise>
+			</c:choose>
+			<div>
+				<!-- 파일모양 아이콘 같은걸 넣을수있음-->
+				<div>${fvo.file_name }</div>
+				${fvo.reg_date}
+			</div>
+			<span>${fvo.file_size }Byte</span>
+		</li>
+		
+		</c:forEach>
+	</ul>
+</div>
 <a href="/board/modify?bno=${bvo.bno }"><button>수정</button></a>
 <a href="/board/remove?bno=${bvo.bno }"><button>삭제</button></a>
 <a href="/board/list?bno=${bvo.bno }"><button>리스트</button></a>

@@ -24,6 +24,13 @@ public interface BoardService {
 
 	List<BoardVO> getPageList(PagingVO pgvo);
 
+	BoardDTO getDetailFile(int bno);
+
+	int removeFile(String fno);
+
+	int modifyFile(BoardDTO bdto);
+
+
 
 
 }
